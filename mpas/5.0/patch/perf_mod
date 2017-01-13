@@ -1,0 +1,12 @@
+diff -ru a/src/Makefile b/src/Makefile
+--- a/src/Makefile	2017-01-12 13:32:59.000000000 +1100
++++ b/src/Makefile	2017-01-12 13:33:22.000000000 +1100
+@@ -541,7 +541,7 @@
+ endif
+ 
+ ifeq "$(TIMER_LIB)" "gptl"
+-	override CPPFLAGS += -DMPAS_GPTL_TIMERS
++	override CPPFLAGS += -DMPAS_PERF_MOD_TIMERS
+ 	override FCINCLUDES += -I${GPTL}/include
+ 	override LIBS += -L${GPTL}/lib -lgptl
+ 	TIMER_MESSAGE="GPTL is being used for the timer interface"

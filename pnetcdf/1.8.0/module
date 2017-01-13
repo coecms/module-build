@@ -1,0 +1,4 @@
+#%Module1.0
+
+description = "A Parallel I/O Library for NetCDF File Access"
+website     = "https://trac.mcs.anl.gov/projects/parallel-netcdf"

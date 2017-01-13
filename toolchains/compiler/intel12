@@ -1,0 +1,5 @@
+INTEL_VERSION=12.1.9.293
+
+module load intel-cc/$INTEL_VERSION
+module load intel-fc/$INTEL_VERSION
+module load intel-mkl/$INTEL_VERSION

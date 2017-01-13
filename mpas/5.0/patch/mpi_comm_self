@@ -1,0 +1,11 @@
+diff -ru a/src/framework/mpas_stream_manager.F b/src/framework/mpas_stream_manager.F
+--- a/src/src/framework/mpas_stream_manager.F	2017-01-12 13:22:48.000000000 +1100
++++ b/src/src/framework/mpas_stream_manager.F	2017-01-12 13:23:07.000000000 +1100
+@@ -2674,6 +2674,7 @@
+     !
+     !-----------------------------------------------------------------------
+     subroutine MPAS_stream_mgr_block_write(manager, writeBlock, streamID, timeLevel, mgLevel, forceWriteNow, writeTime, ierr) !{{{
++        use mpi
+ 
+         implicit none
+ 

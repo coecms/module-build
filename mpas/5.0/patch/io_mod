@@ -1,0 +1,11 @@
+diff -ru a/src/src/framework/mpas_io.F b/src/src/framework/mpas_io.F
+--- a/src/src/framework/mpas_io.F	2017-01-11 17:03:20.000000000 +1100
++++ b/src/src/framework/mpas_io.F	2017-01-11 17:03:38.000000000 +1100
+@@ -6,6 +6,7 @@
+ ! distributed with this code, or at http://mpas-dev.github.com/license.html
+ !
+ module mpas_io
++   use netcdf_f03
+ 
+    use mpas_derived_types
+    use mpas_attlist
