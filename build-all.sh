@@ -16,20 +16,20 @@
 #  limitations under the License.
 
 set -eu
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-source $DIR/environment.sh
 
-tarball="https://support.hdfgroup.org/ftp/HDF5/current18/src/hdf5-1.8.18.tar.bz2"
+APPROOT=/short/w35/saw562/scratch/testapps
+MODULEROOT=/short/w35/saw562/scratch/testapps/modules
+CONFIGROOT=$PWD
 
-[ -f ${DIR}/src.tar.gz ] || wget -O ${DIR}/src.tar.gz "$tarball"
+APPVERSION=$1
 
-mkdir -p src
-tar --strip-components=1 --directory src -xf ${DIR}/src.tar.gz
+for compiler in $CONFIGROOT/toolchains/compiler/*; do
+    COMPILER=$(basename $compiler)
 
-pushd src
+    for mpi in $CONFIGROOT/toolchains/mpi/*; do
+    MPI=$(basename $mpi)
 
-CC=mpicc ./configure --prefix=${PREFIX} --enable-parallel
+        qsub -N "$(tr '/' '_' <<< "$APPVERSION/${COMPILER}-${MPI}")" -v APPVERSION=${APPVERSION},COMPILER=${COMPILER},MPI=${MPI} -P $PROJECT $CONFIGROOT/build.sh
 
-make
-# make check -k
-make install
+    done
+done

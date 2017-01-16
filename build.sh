@@ -15,36 +15,39 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
+#PBS -q express
+#PBS -l ncpus=1 
+#PBS -l walltime=1:30:00 
+#PBS -l mem=2gb 
+#PBS -l jobfs=2gb 
+#PBS -l software=intel-fc
+#PBS -j oe 
+#PBS -m a
+
 set -eu
 
 APPROOT=/short/w35/saw562/scratch/testapps
 MODULEROOT=/short/w35/saw562/scratch/testapps/modules
-CONFIGROOT=$PWD
+CONFIGROOT=${PBS_O_WORKDIR:-$PWD}
 
-APPVERSION=$1
+module purge
+module use $MODULEROOT
 
-for compiler in $CONFIGROOT/toolchains/compiler/*; do
-    COMPILER=$(basename $compiler)
+: ${APPVERSION:=$1}
+: ${COMPILER:=$2}
+: ${MPI:=$3}
 
-    for mpi in $CONFIGROOT/toolchains/mpi/*; do
-    MPI=$(basename $mpi)
-
-        qsub -q express -l ncpus=1 -l walltime=30:00 -l mem=2gb -l jobfs=2gb -j oe -m ea -N "$APPVERSION/${COMPILER}-${MPI}" << EOF
 test -f $CONFIGROOT/$APPVERSION/environment.sh || echo "No environment"
 test -f $CONFIGROOT/$APPVERSION/build.sh || echo "No build script"
 
 export PREFIX=${APPROOT}/${APPVERSION}/${COMPILER}-${MPI}
-mkdir -p \$PREFIX
+mkdir -p $PREFIX
 
 source $CONFIGROOT/toolchains/compiler/$COMPILER
 source $CONFIGROOT/toolchains/mpi/$MPI
 
 BUILDDIR=$(mktemp -d)
-pushd \$BUILDDIR
+pushd $BUILDDIR
 
 source $CONFIGROOT/$APPVERSION/environment.sh
-bash $CONFIGROOT/$APPVERSION/build.sh | tee \$PREFIX/build.log
-EOF
-
-    done
-done
+bash $CONFIGROOT/$APPVERSION/build.sh | tee $PREFIX/build.log

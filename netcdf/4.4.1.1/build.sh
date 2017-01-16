@@ -21,14 +21,14 @@ source $DIR/environment.sh
 
 tarball="https://github.com/Unidata/netcdf-c/archive/v4.4.1.1.tar.gz"
 
-[ -f src.tar.gz ] || wget -O src.tar.gz "$tarball"
+[ -f ${DIR}/src.tar.gz ] || wget -O ${DIR}/src.tar.gz "$tarball"
 
 mkdir -p src
-tar --strip-components=1 --directory src -xf src.tar.gz
+tar --strip-components=1 --directory src -xf ${DIR}/src.tar.gz
 
 pushd src
 
-CC=mpicc ./configure --prefix=${DIR}/install --disable-shared --enable-pnetcdf # --enable-parallel-tests
+CC=mpicc ./configure --prefix=${PREFIX} --disable-shared # --enable-pnetcdf # --enable-parallel-tests
 make
 make check
 make install
