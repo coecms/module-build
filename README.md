@@ -29,7 +29,7 @@ The build script expects three helper scripts in the directory `libname/version`
 
 ## Create a modulefile
 
-The `modules-common.tcl` script automatically sets up paths, and checks the
+The `modules-common-v2.0.tcl` script automatically sets up paths, and checks the
 currently loaded compiler and MPI to determine the correct build to use. It
 expects to be installed to the app directory.
 
@@ -38,5 +38,15 @@ generated based on the module name.
 
     cat $MODULES_ROOT/netcdf/4.4.1.1 <<< EOF
     #%Modules1.0
-    source $APP_ROOT/modules-common.tcl
+    source $APP_ROOT/modules-common-v2.0.tcl
+    mpiToolchain
     EOF
+
+The modules-common file is explicitly versioned so that it may be further
+developed without breaking existing modules.
+
+If the new module is also an existing NCI module ensure that the default is
+unchanged with a `.version` file (see `man modulefile`). If there is an
+existing default you can symlink it:
+
+    ln -s /apps/Modules/modulefiles/netcdf/.version $MODULES_ROOT/netcdf

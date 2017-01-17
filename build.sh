@@ -17,7 +17,7 @@
 
 #PBS -q express
 #PBS -l ncpus=1 
-#PBS -l walltime=1:30:00 
+#PBS -l walltime=1:00:00 
 #PBS -l mem=2gb 
 #PBS -l jobfs=2gb 
 #PBS -l software=intel-fc
@@ -26,8 +26,8 @@
 
 set -eu
 
-APPROOT=/short/w35/saw562/scratch/testapps
-MODULEROOT=/short/w35/saw562/scratch/testapps/modules
+APPROOT=/projects/access/apps
+MODULEROOT=/projects/access/modules
 CONFIGROOT=${PBS_O_WORKDIR:-$PWD}
 
 module purge
@@ -37,8 +37,10 @@ module use $MODULEROOT
 : ${COMPILER:=${2:-intel17}}
 : ${MPI:=${3:-ompi1.10}}
 
-test -f $CONFIGROOT/$APPVERSION/environment.sh || echo "No environment"
-test -f $CONFIGROOT/$APPVERSION/build.sh || echo "No build script"
+export SOURCEDIR=$CONFIGROOT/$APPVERSION
+
+test -f $SOURCEDIR/environment.sh || echo "No environment"
+test -f $SOURCEDIR/build.sh || echo "No build script"
 
 export PREFIX=${APPROOT}/${APPVERSION}/${COMPILER}-${MPI}
 mkdir -p $PREFIX
@@ -49,6 +51,7 @@ source $CONFIGROOT/toolchains/mpi/$MPI
 BUILDDIR=$(mktemp -d)
 pushd $BUILDDIR
 
-source $CONFIGROOT/$APPVERSION/environment.sh
-bash $CONFIGROOT/$APPVERSION/build.sh | tee $PREFIX/build.log
+source $SOURCEDIR/environment.sh
+bash $SOURCEDIR/build.sh | tee $PREFIX/build.log
 touch $PREFIX/.build_succeeded
+

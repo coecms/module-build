@@ -1,8 +1,6 @@
 #!/bin/bash
 # Source this file to get the build environment
 
-module load curl/7.49.1
-module load zlib/1.2.8
 module load hdf5/1.8.18
 
 # Conflicts with pnetcdf > 1.6

@@ -17,10 +17,7 @@
 
 set -eu
 
-APPROOT=/short/w35/saw562/scratch/testapps
-MODULEROOT=/short/w35/saw562/scratch/testapps/modules
 CONFIGROOT=$PWD
-
 APPVERSION=$1
 
 if [ -f $CONFIGROOT/$APPVERSION/download.sh ]; then
