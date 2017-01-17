@@ -15,20 +15,4 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-set -eu
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-source $DIR/environment.sh
-
-tarball="https://github.com/Unidata/netcdf-c/archive/v4.4.1.1.tar.gz"
-
-[ -f ${DIR}/src.tar.gz ] || wget -O ${DIR}/src.tar.gz "$tarball"
-
-mkdir -p src
-tar --strip-components=1 --directory src -xf ${DIR}/src.tar.gz
-
-pushd src
-
-CC=mpicc ./configure --prefix=${PREFIX}
-make
-make check
-make install
+module load netcdf/4.4.1.1

@@ -17,18 +17,7 @@
 
 set -eu
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-source $DIR/environment.sh
 
-tarball="https://github.com/Unidata/netcdf-c/archive/v4.4.1.1.tar.gz"
-
-[ -f ${DIR}/src.tar.gz ] || wget -O ${DIR}/src.tar.gz "$tarball"
-
-mkdir -p src
-tar --strip-components=1 --directory src -xf ${DIR}/src.tar.gz
-
+[ -d src ] || git clone https://github.com/NCAR/ParallelIO ${DIR}/src
 pushd src
-
-CC=mpicc ./configure --prefix=${PREFIX}
-make
-make check
-make install
+git checkout 6ce7f36372aaf434eb1cb1dfd004031d947fbc33

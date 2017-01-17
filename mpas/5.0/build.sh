@@ -18,8 +18,10 @@
 set -eu
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 source $DIR/environment.sh
-export PIO=$DIR/../../pio/2.0.31/install
-export GPTL=$DIR/../../pio/2.0.31/install
+export PIO=$PIO_ROOT
+export GPTL=$PIO_ROOT
+export PNETCDF=$PNETCDF_ROOT
+export NETCDF=$NETCDF_FORTRAN_ROOT
 
 tarball="https://github.com/MPAS-Dev/MPAS-Release/archive/v5.0.tar.gz"
 
@@ -32,5 +34,5 @@ patch -p1 < patch/io_mod
 patch -p1 < patch/mpi_comm_self
 patch -p1 < patch/perf_mod
 
-make -C src ifort CORE=init_atmosphere USE_PIO2=true TIMER_LIB=gptl AUTOCLEAN=true DEBUG=true
-#make -C src ifort CORE=atmosphere USE_PIO2=true TIMER_LIB=gptl AUTOCLEAN=true DEBUG=true
+make -C src ifort CORE=init_atmosphere USE_PIO2=true TIMER_LIB=gptl AUTOCLEAN=true
+make -C src ifort CORE=atmosphere USE_PIO2=true TIMER_LIB=gptl AUTOCLEAN=true

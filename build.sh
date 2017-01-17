@@ -34,8 +34,8 @@ module purge
 module use $MODULEROOT
 
 : ${APPVERSION:=$1}
-: ${COMPILER:=$2}
-: ${MPI:=$3}
+: ${COMPILER:=${2:-intel17}}
+: ${MPI:=${3:-ompi1.10}}
 
 test -f $CONFIGROOT/$APPVERSION/environment.sh || echo "No environment"
 test -f $CONFIGROOT/$APPVERSION/build.sh || echo "No build script"
@@ -51,3 +51,4 @@ pushd $BUILDDIR
 
 source $CONFIGROOT/$APPVERSION/environment.sh
 bash $CONFIGROOT/$APPVERSION/build.sh | tee $PREFIX/build.log
+touch $PREFIX/.build_succeeded

@@ -10,4 +10,4 @@ module load intel-cc/17.0.1.132
 # MPI
 module load openmpi/1.10.2
 
-module load papi/5.4.3
+module load pio

@@ -23,13 +23,18 @@ CONFIGROOT=$PWD
 
 APPVERSION=$1
 
+if [ -f $CONFIGROOT/$APPVERSION/download.sh ]; then
+    bash $CONFIGROOT/$APPVERSION/download.sh 
+fi
+
 for compiler in $CONFIGROOT/toolchains/compiler/*; do
     COMPILER=$(basename $compiler)
 
     for mpi in $CONFIGROOT/toolchains/mpi/*; do
     MPI=$(basename $mpi)
 
-        qsub -N "$(tr '/' '_' <<< "$APPVERSION/${COMPILER}-${MPI}")" -v APPVERSION=${APPVERSION},COMPILER=${COMPILER},MPI=${MPI} -P $PROJECT $CONFIGROOT/build.sh
+        name=$(tr '/' '_' <<< "$APPVERSION/${COMPILER}-${MPI}")
+        qsub -o "$CONFIGROOT/log/$name" -N "$name" -v APPVERSION=${APPVERSION},COMPILER=${COMPILER},MPI=${MPI} -P $PROJECT $CONFIGROOT/build.sh
 
     done
 done

@@ -32,15 +32,13 @@ tarball="https://github.com/MPAS-Dev/MPAS-Release/archive/v5.0.tar.gz"
 mkdir -p build install
 pushd build
 
-CC=mpicc FC=mpif90 cmake ../ParallelIO \
+CC=mpicc FC=mpif90 cmake ../src \
     -DMPI_Fortran_LIBRARIES=$OPENMPI_ROOT/lib/Intel/libmpi_f90.so \
     -DMPI_Fortran_INCLUDE_PATH=$OPENMPI_ROOT/include/Intel \
     -DPnetCDF_PATH=$PNETCDF_ROOT \
     -DNetCDF_PATH=$NETCDF_ROOT \
-    -DNetCDF_Fortran_INCLUDE_DIR=$NETCDF_ROOT/fortran/Intel \
-    -DNetCDF_Fortran_LIBRARY=$NETCDF_ROOT/lib/Intel/libnetcdff.so \
-    -DCMAKE_INSTALL_PREFIX=$DIR/install \
-    -DPIO_USE_MALLOC=ON \
+    -DNetCDF_Fortran_PATH=$NETCDF_FORTRAN_ROOT \
+    -DCMAKE_INSTALL_PREFIX=$PREFIX \
     -DCMAKE_C_FLAGS="-std=gnu99"
 
 make VERBOSE=yes

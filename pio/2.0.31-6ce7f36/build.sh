@@ -17,18 +17,19 @@
 
 set -eu
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-source $DIR/environment.sh
 
-tarball="https://github.com/Unidata/netcdf-c/archive/v4.4.1.1.tar.gz"
+mkdir -p build install
+pushd build
 
-[ -f ${DIR}/src.tar.gz ] || wget -O ${DIR}/src.tar.gz "$tarball"
+CC=mpicc FC=mpif90 cmake ${DIR}/src \
+    -DMPI_Fortran_LIBRARIES=$OPENMPI_ROOT/lib/Intel/libmpi_f90.so \
+    -DMPI_Fortran_INCLUDE_PATH=$OPENMPI_ROOT/include/Intel \
+    -DPnetCDF_PATH=$PNETCDF_ROOT \
+    -DNetCDF_PATH=$NETCDF_ROOT \
+    -DNetCDF_Fortran_PATH=$NETCDF_FORTRAN_ROOT \
+    -DCMAKE_INSTALL_PREFIX=$PREFIX \
+    -DCMAKE_C_FLAGS="-std=gnu99"
 
-mkdir -p src
-tar --strip-components=1 --directory src -xf ${DIR}/src.tar.gz
-
-pushd src
-
-CC=mpicc ./configure --prefix=${PREFIX}
-make
+make VERBOSE=yes
 make check
 make install
