@@ -19,6 +19,7 @@ set -eu
 
 CONFIGROOT=$PWD
 APPVERSION=$1
+export SOURCEDIR=$CONFIGROOT/$APPVERSION
 
 if [ -f $CONFIGROOT/$APPVERSION/download.sh ]; then
     bash $CONFIGROOT/$APPVERSION/download.sh 

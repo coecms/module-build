@@ -28,7 +28,7 @@ tar --strip-components=1 --directory src -xf ${DIR}/src.tar.gz
 
 pushd src
 
-CC=mpicc ./configure --prefix=${PREFIX} --enable-parallel
+CC=mpicc FC=mpif90 ./configure --prefix=${PREFIX} --enable-parallel --enable-fortran --enable-fortran2003 --enable-production
 
 make
 # make check -k
