@@ -25,6 +25,7 @@
 #PBS -m a
 
 set -eu
+umask 0002
 
 APPROOT=/projects/access/apps
 MODULEROOT=/projects/access/modules

@@ -15,8 +15,5 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-set -eu
-
-[ -d ${SOURCEDIR}/src ] || git clone https://github.com/NCAR/ParallelIO ${SOURCEDIR}/src
-pushd ${SOURCEDIR}/src
-git checkout 6ce7f36372aaf434eb1cb1dfd004031d947fbc33
+tarball="https://github.com/Unidata/netcdf-c/archive/v4.4.1.1.tar.gz"
+[ -f ${SOURCEDIR}/src.tar.gz ] || wget -O ${SOURCEDIR}/src.tar.gz "$tarball"
